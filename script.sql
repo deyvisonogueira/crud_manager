@@ -1,1 +1,0 @@
-SELECT * FROM crud_manager.companies;
