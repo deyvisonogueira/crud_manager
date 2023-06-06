@@ -30,13 +30,13 @@
 
 		<div id="top" class="row">
 			<div class="col-md-3">
-				<h3>Empresas</h3>
+				<h3>Fornecedores</h3>
 			</div>
 
 			<div class="col-md-6">
 				<div class="input-group h2">
 					<input name="data[search]" class="form-control" id="search"
-						type="text" placeholder="Pesquisar empresas"> <span
+						type="text" placeholder="Pesquisar fornecedores"> <span
 						class="input-group-btn">
 						<button class="btn btn-danger" type="submit">
 							<span class="glyphicon glyphicon-search"></span>
@@ -46,9 +46,9 @@
 			</div>
 
 			<div class="col-md-3">
-				<a href="/crud-manager/company/form"
+				<a href="/crud-manager/supplier/form"
 					class="btn btn-danger pull-right h2"><span
-					class="glyphicon glyphicon-plus" /></span>&nbspAdicionar Empresa</a>
+					class="glyphicon glyphicon-plus" /></span>&nbspAdicionar Fornecedor</a>
 			</div>
 		</div>
 
@@ -61,31 +61,32 @@
 					<thead>
 						<tr>
 							<th>Nome</th>
-							<th>Cargo</th>
-							<th>Início</th>
-							<th>Saída</th>
-							<th>Usuário</th>
+							<th>CNPJ</th>
+							<th>Ramo</th>
+							<th>Data</th>
+							<th>Empresa</th>
 							<th>Editar</th>
 							<th>Excluir</th>
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="comp" items="${companies}">
+						<c:forEach var="sup" items="${suppliers}">
 							<tr>
-								<td>${comp.getName()}</td>
-								<td>${comp.getRole()}</td>
-								<td>${comp.getStart()}</td>
-								<td>${comp.getEnd()}</td>
-								<td>${comp.getUser().getName()}</td>
+								<td>${sup.getName()}</td>
+								<td>${sup.getCnpj()}</td>
+								<td>${sup.getBranch()}</td>
+								<td>${sup.getContratct_start()}</td>
+								<td>${sup.getContratct_end()}</td>
+								<td>${sup.getCompany().getName()}</td>
 
 								<td class="actions"><a class="btn btn-info btn-xs"
-									href="${pageContext.request.contextPath}/company/update?companyId=${comp.getId()}">
+									href="${pageContext.request.contextPath}/supplier/update?supplierId=${sup.getId()}">
 										<span class="glyphicon glyphicon-edit"></span>
 								</a></td>
 
 								<td class="actions"><a
 									class="btn btn-danger btn-xs modal-remove"
-									company-id="${comp.getId()}" company-name="${comp.getName()}"
+									supplier-id="${sup.getId()}" supplier-name="${sup.getName()}"
 									data-toggle="modal" data-target="#delete-modal" href="#"><span
 										class="glyphicon glyphicon-trash"></span></a></td>
 							</tr>
@@ -123,16 +124,16 @@
 						$(".modal-remove")
 								.click(
 										function() {
-											var companyName = $(this).attr(
-													'company-name');
-											var companyId = $(this).attr(
-													'company-id');
+											var supplierName = $(this).attr(
+													'supplier-name');
+											var supplierId = $(this).attr(
+													'supplier-id');
 											$(".modal-body #hiddenValue").text(
-													"a empresa '" + companyName
+													"o fornecedor '" + supplierName
 															+ "'");
-											$("#id").attr("value", companyId);
+											$("#id").attr("value", supplierId);
 											$("#form").attr("action",
-													"company/delete");
+													"supplier/delete");
 										})
 					});
 		</script>

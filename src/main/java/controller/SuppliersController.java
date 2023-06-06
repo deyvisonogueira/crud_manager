@@ -17,7 +17,7 @@ import model.dao.SupplierDAO;
 import model.dao.DAOFactory;
 
 
-@WebServlet(urlPatterns = {"/companies", "/supplier/form", "/supplier/insert","/supplier/delete", "/supplier/update"})
+@WebServlet(urlPatterns = {"/supplier", "/supplier/form", "/supplier/insert","/supplier/delete", "/supplier/update"})
 public class SuppliersController extends HttpServlet {
 
 
@@ -26,7 +26,7 @@ public class SuppliersController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String action = req.getRequestURI();
-		//retorna: "crud-manager/company/form"
+		//retorna: "crud-manager/supplier/form"
 
 		switch (action) {
 		case "/crud-manager/supplier/form": {
@@ -51,7 +51,7 @@ public class SuppliersController extends HttpServlet {
 
 			CommonsController.listUsers(req);
 			req.setAttribute("action", "update");
-			req.setAttribute("company", supplier);
+			req.setAttribute("supplier", supplier);
 			ControllerUtil.forward(req, resp, "/form-supplier.jsp");			
 			break;
 		}
