@@ -82,16 +82,16 @@ DROP TABLE IF EXISTS `suppliers`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `suppliers` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(128) NOT NULL,
-  `cnpj` varchar(15) NOT NULL,
-  `branch` varchar(100) NOT NULL,
+  `name` varchar(128) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `cnpj` varchar(50) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `branch` varchar(100) COLLATE utf8mb3_unicode_ci NOT NULL,
   `contract_start` date NOT NULL,
   `contract_end` date DEFAULT NULL,
   `company_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `company_id` (`company_id`),
   CONSTRAINT `suppliers_ibfk_1` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -100,6 +100,7 @@ CREATE TABLE `suppliers` (
 
 LOCK TABLES `suppliers` WRITE;
 /*!40000 ALTER TABLE `suppliers` DISABLE KEYS */;
+INSERT INTO `suppliers` VALUES (2,'Teste','00.000.000/0001-00','Teste','2023-06-07','2023-06-30',1),(3,'João','00.000.000/0001-00','Alimentício ','2023-06-05','2023-06-28',2);
 /*!40000 ALTER TABLE `suppliers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -146,4 +147,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-04 22:33:48
+-- Dump completed on 2023-06-07 23:24:16
