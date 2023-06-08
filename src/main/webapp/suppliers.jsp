@@ -75,8 +75,8 @@
 								<td>${sup.getName()}</td>
 								<td>${sup.getCnpj()}</td>
 								<td>${sup.getBranch()}</td>
-								<td>${sup.getContratct_start()}</td>
-								<td>${sup.getContratct_end()}</td>
+								<td>${sup.getContract_start()}</td>
+								<td>${sup.getContract_end()}</td>
 								<td>${sup.getCompany().getName()}</td>
 
 								<td class="actions"><a class="btn btn-info btn-xs"
@@ -119,8 +119,8 @@
 							$("#alert").slideUp(500);
 						}, 3000);
 
-						// ao clicar no delete de algum post, pega o nome do usuário, 
-						// o id do usuário e a ação (delete) e envia para o modal 
+						// ao clicar no delete de algum post, pega o nome do fornecedor, 
+						// o id do fornecedor e a ação (delete) e envia para o modal 
 						$(".modal-remove")
 								.click(
 										function() {

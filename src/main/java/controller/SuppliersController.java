@@ -15,25 +15,23 @@ import model.Company;
 import model.ModelException;
 import model.dao.SupplierDAO;
 import model.dao.DAOFactory;
+import model.dao.CompanyDAO;
 
 
-@WebServlet(urlPatterns = {"/supplier", "/supplier/form", "/supplier/insert","/supplier/delete", "/supplier/update"})
+@WebServlet(urlPatterns = {"/suppliers", "/supplier/form", "/supplier/insert","/supplier/delete", "/supplier/update"})
 public class SuppliersController extends HttpServlet {
 
 
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		String action = req.getRequestURI();
-		//retorna: "crud-manager/supplier/form"
 
 		switch (action) {
 		case "/crud-manager/supplier/form": {
-			CommonsController.listUsers(req);
+			listSuppliers(req);
 			req.setAttribute("action", "insert");
-			//forward: é interno: não tem navegador
-			ControllerUtil.forward(req, resp, "/form-supplier.jsp");		
+			ControllerUtil.forward(req, resp, "/form-supplier.jsp");
 			break;
 		}
 		case "/crud-manager/supplier/update": {
@@ -49,10 +47,11 @@ public class SuppliersController extends HttpServlet {
 				e.printStackTrace();
 			}
 
-			CommonsController.listUsers(req);
+			listSuppliers(req);
 			req.setAttribute("action", "update");
 			req.setAttribute("supplier", supplier);
-			ControllerUtil.forward(req, resp, "/form-supplier.jsp");			
+			ControllerUtil.forward(req, resp, "/form-supplier.jsp");
+
 			break;
 		}
 		default:
@@ -64,11 +63,11 @@ public class SuppliersController extends HttpServlet {
 		}
 	}
 
-	private void listSuppliers(HttpServletRequest req) {
-		// TODO Auto-generated method stub
-		SupplierDAO dao = DAOFactory.createDAO(SupplierDAO.class);
 
+	private void listSuppliers(HttpServletRequest req) {
+		SupplierDAO dao = DAOFactory.createDAO(SupplierDAO.class);
 		List<Supplier> suppliers = null;
+
 		try {
 			suppliers = dao.listAll();
 		} catch (ModelException e) {
@@ -76,9 +75,26 @@ public class SuppliersController extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		if (suppliers != null)
+		if (suppliers != null) {
 			req.setAttribute("suppliers", suppliers);
+		}
+
+		CompanyDAO companyDAO = DAOFactory.createDAO(CompanyDAO.class);
+		List<Company> companies = null;
+
+		try {
+			companies = companyDAO.listAll();
+		} catch (ModelException e) {
+			// Log no servidor
+			e.printStackTrace();
+		}
+
+		if (companies != null) {
+			req.setAttribute("companies", companies);
+		}
 	}
+
+
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -115,22 +131,27 @@ public class SuppliersController extends HttpServlet {
 	}
 
 	private void updateSupplier(HttpServletRequest req, HttpServletResponse resp) {
+	    String supplierIdStr = req.getParameter("supplierId");
+	    String supplierName = req.getParameter("name");
+	    String cnpj = req.getParameter("cnpj");
+	    String branch = req.getParameter("branch");
+	    String contract_start = req.getParameter("contract_start");
+	    String contract_end = req.getParameter("contract_end");
 
-		String supplierIdStr = req.getParameter("supplierId");
-		String supplierName = req.getParameter("name");
-		String cnpj = req.getParameter("cnpj");
-		String branch = req.getParameter("branch");
-		String contract_start = req.getParameter("contract_start");
-		String contract_end = req.getParameter("contract_end");
-		Integer companyId = Integer.parseInt(req.getParameter("company"));
+	    Integer companyId = null;
+	    String companyIdStr = req.getParameter("company");
 
-		Supplier supplier = new Supplier(Integer.parseInt(supplierIdStr));
-		supplier.setName(supplierName);
-		supplier.setCnpj(cnpj);
-		supplier.setBranch(branch);
-		supplier.setContract_start(ControllerUtil.formatDate(contract_start));
-		supplier.setContract_end(ControllerUtil.formatDate(contract_end));
-		supplier.setCompany(new Company(companyId));
+	    if (companyIdStr != null && !companyIdStr.isEmpty()) {
+	        companyId = Integer.parseInt(companyIdStr);
+	    }
+
+	    Supplier supplier = new Supplier(Integer.parseInt(supplierIdStr));
+	    supplier.setName(supplierName);
+	    supplier.setCnpj(cnpj);
+	    supplier.setBranch(branch);
+	    supplier.setContract_start(ControllerUtil.formatDate(contract_start));
+	    supplier.setContract_end(ControllerUtil.formatDate(contract_end));
+	    supplier.setCompany(new Company(companyId));
 
 		SupplierDAO dao = DAOFactory.createDAO(SupplierDAO.class);
 
@@ -179,14 +200,18 @@ public class SuppliersController extends HttpServlet {
 	}
 
 	private void insertSupplier(HttpServletRequest req, HttpServletResponse resp) {
-		//pega dados do form
+		// Obter dados do formulário
 		String supplierName = req.getParameter("name");
 		String cnpj = req.getParameter("cnpj");
 		String branch = req.getParameter("branch");
 		String contract_start = req.getParameter("contract_start");
 		String contract_end = req.getParameter("contract_end");
-		//company: nome do select
-		Integer companyId = Integer.parseInt(req.getParameter("company"));
+		Integer companyId = null;
+		String companyIdStr = req.getParameter("company");
+
+		if (companyIdStr != null && !companyIdStr.isEmpty()) {
+			companyId = Integer.parseInt(companyIdStr);
+		}
 
 		Supplier sup = new Supplier();
 		sup.setName(supplierName);
@@ -196,20 +221,19 @@ public class SuppliersController extends HttpServlet {
 		sup.setContract_end(ControllerUtil.formatDate(contract_end));
 		sup.setCompany(new Company(companyId));
 
-		//persistencia
-		SupplierDAO dao = DAOFactory.createDAO(Supplier.class);
+		// Persistência
+		SupplierDAO dao = DAOFactory.createDAO(SupplierDAO.class);
 
 		try {
 			if (dao.save(sup)) {
-				ControllerUtil.sucessMessage(req, "Forncedor '" + sup.getName() + "' salvo com sucesso.");
-			}
-			else {
-				ControllerUtil.errorMessage(req, "Empresa '" + sup.getName() + "' não pode ser salvo.");
+				ControllerUtil.sucessMessage(req, "Fornecedor '" + sup.getName() + "' salvo com sucesso.");
+			} else {
+				ControllerUtil.errorMessage(req, "Fornecedor '" + sup.getName() + "' não pode ser salvo.");
 			}
 		} catch (ModelException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			ControllerUtil.errorMessage(req, e.getMessage());
 		}
 	}
+
 }

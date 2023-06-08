@@ -14,20 +14,20 @@ public class MySQLSupplierDAO implements SupplierDAO {
 	public boolean save(Supplier supplier) throws ModelException {
 		DBHandler db = new DBHandler();
 		
-		String sqlInsert = "INSERT INTO suppliers VALUES (DEFAULT, ?, ?, ?, ?, ?);";
+		String sqlInsert = "INSERT INTO suppliers VALUES (DEFAULT, ?, ?, ?, ?, ?, ?);";
 		
 		db.prepareStatement(sqlInsert);
 		
 		db.setString(1, supplier.getName());
 		db.setString(2, supplier.getCnpj());
-		db.setString(2, supplier.getBranch());
-		db.setDate(3, supplier.getContract_start() == null ? new Date() : supplier.getContract_start());
+		db.setString(3, supplier.getBranch());
+		db.setDate(4, supplier.getContract_start() == null ? new Date() : supplier.getContract_start());
 			
 		if (supplier.getContract_end() == null)
-			db.setNullDate(4);
-		else db.setDate(4, supplier.getContract_end());
+			db.setNullDate(5);
+		else db.setDate(5, supplier.getContract_end());
 
-		db.setInt(5, supplier.getCompany().getId());
+		db.setInt(6, supplier.getCompany().getId());
 		
 		return db.executeUpdate() > 0;	
 	}
@@ -49,16 +49,16 @@ public class MySQLSupplierDAO implements SupplierDAO {
 		
 		db.setString(1, supplier.getName());
 		db.setString(2, supplier.getCnpj());
-		db.setString(2, supplier.getBranch());
+		db.setString(3, supplier.getBranch());
 		
-		db.setDate(3, supplier.getContract_start() == null ? new Date() : supplier.getContract_start());
+		db.setDate(4, supplier.getContract_start() == null ? new Date() : supplier.getContract_start());
 		
 		if (supplier.getContract_end() == null)
-			db.setNullDate(4);
-		else db.setDate(4, supplier.getContract_end());
+			db.setNullDate(5);
+		else db.setDate(5, supplier.getContract_end());
 		
-		db.setInt(5, supplier.getCompany().getId());
-		db.setInt(6, supplier.getId());
+		db.setInt(6, supplier.getCompany().getId());
+		db.setInt(7, supplier.getId());
 		
 		return db.executeUpdate() > 0;
 	}
@@ -94,16 +94,16 @@ public class MySQLSupplierDAO implements SupplierDAO {
 
 		while (db.next()) {
 			Company company = new Company(db.getInt("company_id"));
-			company.setName(db.getString("nome"));
-			company.setRole(db.getString("cargo"));
+			company.setName(db.getString("name"));
+			company.setRole(db.getString("role"));
 			
 			
 			Supplier supplier = new Supplier(db.getInt("supplier_id"));
 			supplier.setName(db.getString("name"));
 			supplier.setCnpj(db.getString("cnpj"));
 			supplier.setBranch(db.getString("branch"));
-			supplier.setContract_start(db.getDate("contrac_start"));
-			supplier.setContract_end(db.getDate("contrac_end"));
+			supplier.setContract_start(db.getDate("contract_start"));
+			supplier.setContract_end(db.getDate("contract_end"));
 			supplier.setCompany(company);
 			
 			suppliers.add(supplier);
@@ -128,8 +128,8 @@ public class MySQLSupplierDAO implements SupplierDAO {
 			s.setName(db.getString("name"));
 			s.setCnpj(db.getString("cnpj"));
 			s.setBranch(db.getString("branch"));
-			s.setContract_start(db.getDate("start"));
-			s.setContract_end(db.getDate("end"));
+			s.setContract_start(db.getDate("contract_start"));
+			s.setContract_end(db.getDate("contract_end"));
 			
 			CompanyDAO companyDAO = DAOFactory.createDAO(CompanyDAO.class); 
 			Company company = companyDAO.findById(db.getInt("company_id"));

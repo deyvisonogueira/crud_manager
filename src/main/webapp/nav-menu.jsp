@@ -14,11 +14,11 @@
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="${pageContext.request.contextPath}"><span class="glyphicon glyphicon-home" /><strong>&nbspInício</strong></a></li>
-				<li><a href="${pageContext.request.contextPath}/users"><span class="glyphicon glyphicon-user" /><strong>&nbspUsuários</strong></a></li>
-				<li><a href="${pageContext.request.contextPath}"><span class="glyphicon glyphicon-pencil" /><strong>&nbspPosts</strong></a></li>
-				<li><a href="${pageContext.request.contextPath}/companies"><span class="glyphicon glyphicon-pushpin" /><strong>&nbspEmpresas</strong></a></li>
-				<li><a href="${pageContext.request.contextPath}/suppliers"><span class="glyphicon glyphicon-pushpin" /><strong>&nbspFornecedores</strong></a></li>
+				<li><a href="${pageContext.request.contextPath}"><span class="fa fa-home" /><strong>&nbspInício</strong></a></li>
+				<li><a href="${pageContext.request.contextPath}/users"><span class="fa fa-user" /><strong>&nbspUsuários</strong></a></li>
+				<li><a href="${pageContext.request.contextPath}"><span class="fa fa-sticky-note" /><strong>&nbspPosts</strong></a></li>
+				<li><a href="${pageContext.request.contextPath}/companies"><span class="fa fa-suitcase" /><strong>&nbspEmpresas</strong></a></li>
+				<li><a href="${pageContext.request.contextPath}/suppliers"><span class="fa fa-users" /><strong>&nbspFornecedores</strong></a></li>
 				<li class="dropdown">
 			        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><strong>Perfil</strong>
 			        <span class="caret"></span></a>
