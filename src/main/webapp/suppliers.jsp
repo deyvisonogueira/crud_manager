@@ -63,7 +63,8 @@
 							<th>Nome</th>
 							<th>CNPJ</th>
 							<th>Ramo</th>
-							<th>Data</th>
+							<th>Data início do contrato</th>
+							<th>Data fim do contrato</th>
 							<th>Empresa</th>
 							<th>Editar</th>
 							<th>Excluir</th>
